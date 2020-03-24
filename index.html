@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours Pizza</title>
+    <link rel="icon" type="image/png" href="./img/unnamed.png">
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1e80f70260.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <section class="wrapper">
+        <header>
+            <nav class="nav_bar">
+                <ul class="menu">
+                    <li class="menu_item"><a id="main_page_btn" class="current" href="#">Main Page</a></li>
+                    <li class="menu_item"><a id="products_page_btn" href="#">Products</a></li>
+                </ul>
+                <form class="search-bar" id="search_form">
+                    <input id="header_search" class="search-bar-input" type="search" placeholder="Search by ingredients...">
+                    <button class="search-bar-submit" href="#"><i class="fas fa-search"></i></button>
+                </form>
+                <a href="#"><i class="fas fa-shopping-cart"></i></a>    
+            </nav>
+        </header>
+        <main>
+            <section class="content content_start">
+                <h1>Get yours pizza</h1>
+                <div id="root_main_page"></div>
+
+                <article>
+                    <h3>Free, Delivery!*</h3>
+                    <a id="img_btn_main" class="img_block" href="#"><span class="main_img"></span></a>
+                    <p>*Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis velit quasi reiciendis
+                        perspiciatis laborum cupiditate omnis voluptatum non aliquam nisi quae ut, sunt ducimus ad,
+                        ratione delectus possimus. Maxime, asperiores.</p>
+                </article>
+                <article>
+                    <h3>Choose the components, feel free! </h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt quidem, accusamus voluptatum
+                        aut libero doloremque in? Facere obcaecati doloremque architecto rerum ipsum fuga suscipit? Non
+                        aperiam dicta nesciunt accusamus laboriosam!</p>
+                </article>
+            </section>
+            <section class="content content_choose">
+                <h2>Please choose view:</h2>
+                <i id="choose_grid" class="fas fa-th"></i>
+                <i id="choose_list" class="fas fa-bars"></i>
+            </section>
+            <section class="content content_products_grop">
+                <h1>Try a standart one
+                    <span id="list_button" class="switch-button"><i class="fas fa-bars"></i></span>
+                    <span id="grid_button" class="switch-button on"><i class="fas fa-th"></i></span>
+                </h1>
+                <h1>Filter by:
+                    <span id="name_filter_button" class="switch-filter">Name</span>
+                    <span id="prise_filter_button" class="switch-filter">Prise</span>
+                </h1>
+                <h3>or choose components manually</h3> 
+                <div id="root" class="content_products"></div>
+            </section>
+
+        </main>
+        <footer>
+            <p>the best company Name &copy;</p>
+        </footer>
+    </div>
+    <script src="/script/style_and_parameters.js"></script>
+    <script src="/script/arrey_of_products.js"></script>
+    <script src="/script/main.js"></script>
+    <script src="/script/products_view.js"></script>
+</body>
+
+</html>
