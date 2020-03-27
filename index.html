@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yours Pizza</title>
     <link rel="icon" type="image/png" href="./img/unnamed.png">
-    <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/1e80f70260.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
@@ -16,21 +16,37 @@
         <header>
             <nav class="nav_bar">
                 <ul class="menu">
-                    <li class="menu_item"><a id="main_page_btn" class="current" href="#">Main Page</a></li>
-                    <li class="menu_item"><a id="products_page_btn" href="#">Products</a></li>
+                    <li class="menu_item"><a id="main_page_btn" class="on" href="#">Main Page</a></li>
+                    <li class="menu_item"><a id="products_page_btn" class="" href="#">Products</a></li>
                 </ul>
                 <form class="search-bar" id="search_form">
-                    <input id="header_search" class="search-bar-input" type="search" placeholder="Search by ingredients...">
+                    <input id="header_search" class="search-bar-input" type="search"
+                        placeholder="Search by ingredients...">
                     <button class="search-bar-submit" href="#"><i class="fas fa-search"></i></button>
                 </form>
-                <a href="#"><i class="fas fa-shopping-cart"></i></a>    
+                <a href="#"><i class="fas fa-shopping-cart"></i></a>
             </nav>
         </header>
         <main>
-            <section class="content content_start">
-                <h1>Get yours pizza</h1>
-                <div id="root_main_page"></div>
-
+            <h1 id="h_1">Get yours pizza</h1>
+            <section id="content_choose" class="content content_choose hidden">
+                <h2>Please choose view:</h2>
+                <i id="choose_grid" class="fas fa-th"></i>
+                <i id="choose_list" class="fas fa-bars"></i>
+            </section>
+            <section id="content_products_control" class="content content_products_control hidden">
+                <h2>Try a standart one
+                    <span id="list_button" class="switch-button"><i class="fas fa-bars"></i></span>
+                    <span id="grid_button" class="switch-button on"><i class="fas fa-th"></i></span>
+                </h2>
+                <h3>Filter by:
+                    <span id="name_filter_button" class="switch-filter">Name</span>
+                    <span id="prise_filter_button" class="switch-filter">Prise</span>
+                    <button id="reset_button" class="reset_button">Reset search</button>
+                </h3>
+            </section>
+            <div id="root" class="content_products hidden"></div>
+            <section id="content_start" class="content content_start">
                 <article>
                     <h3>Free, Delivery!*</h3>
                     <a id="img_btn_main" class="img_block" href="#"><span class="main_img"></span></a>
@@ -45,33 +61,13 @@
                         aperiam dicta nesciunt accusamus laboriosam!</p>
                 </article>
             </section>
-            <section class="content content_choose">
-                <h2>Please choose view:</h2>
-                <i id="choose_grid" class="fas fa-th"></i>
-                <i id="choose_list" class="fas fa-bars"></i>
-            </section>
-            <section class="content content_products_grop">
-                <h1>Try a standart one
-                    <span id="list_button" class="switch-button"><i class="fas fa-bars"></i></span>
-                    <span id="grid_button" class="switch-button on"><i class="fas fa-th"></i></span>
-                </h1>
-                <h1>Filter by:
-                    <span id="name_filter_button" class="switch-filter">Name</span>
-                    <span id="prise_filter_button" class="switch-filter">Prise</span>
-                </h1>
-                <h3>or choose components manually</h3> 
-                <div id="root" class="content_products"></div>
-            </section>
-
+            <h3 id="error" class="error hidden">Oops, something went wrong. Please try a different request ... </h3>
         </main>
         <footer>
-            <p>the best company Name &copy;</p>
+            <p>the company Name &copy;</p>
         </footer>
-    </div>
-    <script src="/script/style_and_parameters.js"></script>
-    <script src="/script/arrey_of_products.js"></script>
-    <script src="/script/main.js"></script>
-    <script src="/script/products_view.js"></script>
+        <script src="./script/array_of_products.js"></script>
+        <script src="./script/main.js"></script>
 </body>
 
 </html>

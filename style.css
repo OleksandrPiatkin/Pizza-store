@@ -24,36 +24,42 @@ body {
     text-decoration: none;
     justify-content: space-between;
 }
+
     .nav_bar a {
         margin: 0 3em;
     }
+
 .search-bar {
-    opacity: 0.1;
     position: relative;
 }
+
     .search-bar-input {
         background-color: #f1f3f5;
         padding: 1em 1em 1em 2.5em;
         margin: 8px 0;
         border: 2px solid #f1f3f5;
         border-radius: 2em;
-        
+
     }
+
     .search-bar-submit {
         position: absolute;
         top: 35%;
         left: 5%;
         background-color: #f1f3f5;
-        border: 1px solid #f1f3f5;;
+        border: 1px solid #f1f3f5;
+        ;
         border-radius: 4px;
         color: #868e96;
     }
-    .search-bar-submit:hover {
-        color: #212529;
-    }
-    .fa-search {
-        font-size: 1.3em;
-    }
+
+        .search-bar-submit:hover {
+            color: #212529;
+        }
+
+        .fa-search {
+            font-size: 1.3em;
+        }
 
 .menu {
     display: flex;
@@ -63,6 +69,7 @@ body {
     justify-content: flex-start;
     font-weight: bolder;
 }
+
     .menu_item {
         margin: 0 3em;
     }
@@ -73,10 +80,9 @@ body {
             text-decoration: none;
             display: block;
             color: #868e96;
-            
+
         }
 
-        .menu_item a.current,
         .menu_item a:hover,
         .nav_bar a:hover {
             color: #212529;
@@ -84,98 +90,109 @@ body {
 
 main {
     display: flex;
+    flex-direction: column;
     flex: 1 0 auto;
     background-color: #49505711;
     justify-content: center;
 }
 
+.content,
+.content_products,
+h1 {
+    margin: 0.5em auto;
+    width: 80%;
+}
+
     .content {
-        margin: 2em 0;
-        width: 80%;
+        margin-bottom: 2em;
     }
 
-    .content h1 {
-        margin: 1em 0;
+    h1 {
+        margin-top: 2em;
     }
 
     .content h3 {
         margin: 0.5em 0;
     }
 
-    .main_img {
-        display: block;
-        height: 20em;
-        margin: 0.5em 0;
-        background-image: url(/img/main_content.jpg);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-    }
+.main_img {
+    display: block;
+    height: 20em;
+    margin: 0.5em 0;
+    background: url(/img/main_content.jpg) no-repeat center;
+    background-size: cover;
+}
 
-    .img_block {
-        display: block;
-    }
+.img_block {
+    display: block;
+}
 
 .switch-button,
 .switch-filter {
     color: #868e96;
     margin-left: 0.75em;
 }
-.switch-button:hover,
-.switch-filter:hover {
-    cursor: pointer;
-    color:  #212529;
-}
-.on {
-    color:  #212529;
-}
+
+    .switch-button:hover,
+    .switch-filter:hover {
+        cursor: pointer;
+        color: #212529;
+    }
 
 .content_products {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
 }
     .content_products article {
         display: block;
         width: 280px;
         padding-left: 20px;
         min-height: 340px;
-        margin-bottom: 1.5em;
+        margin: 1em 0.7em;
         box-shadow: 2px 1px 6px 0px #000000;
         transition: box-shadow 0.4s;
     }
+    
+        .content_products article ul {
+            list-style: none;
+        }
+
     .content_products article:hover {
         box-shadow: 5px 1px 11px 0px #000000;
     }
 
-        .content_products article canvas {
-            margin-top: 1.5em;
-        }
-        .content_products article h2 {
-            margin-top: 0em;
-        }
+    .content_products article canvas {
+        margin-top: 1.5em;
+    }
 
-        .content_products_grop {
-            display: none;
-        }
+    .content_products article h2 {
+        margin-top: 0em;
+    }
 
 .content_choose {
-    display: none;
+    display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: center;
+    margin: 10em auto;
 }
 
     .content_choose i {
         font-size: 3em;
-        margin-left:  1em;
+        margin-left: 1em;
         color: #868e96;
     }
 
     .content_choose i:hover {
         cursor: pointer;
-        color:  #212529;
+        color: #212529;
     }
+
+.content_products_control h2 {
+    font-size: 2em;
+    margin-top: 1em;
+}
 
 footer {
     display: flex;
@@ -191,11 +208,69 @@ footer {
         color: white;
     }
 
-    @media only screen and (max-width: 700px) {
-        .nav_bar a {
-            margin: 0 1.5em;
+.list_view {
+    flex-direction: column;
+}
+
+    .list_view article {
+        min-height: fit-content;
+        max-width: 980px;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: fit-content;
+        justify-content: row;
+        align-items: center;
+    }  
+
+    .list_view article ul {
+        margin: 0 1em 0 auto; 
+    } 
+
+        .list_view article canvas {
+            margin: 0.5em 0;
+            width: 150px;
+            height: 75px;
         }
-        .menu_item {
-            margin: 0 1em;
-        }
+
+            .list_view article ul li {
+                display: none;
+            }
+
+            .list_view article ul li:last-child {
+                display: list-item;
+            }
+
+.reset_button {
+    padding: 0 0.4em;
+    margin-left: 0.5em;
+    border: 0.5px solid #212529;
+    box-shadow: 0.5px 1px #21252985;
+    border-radius: 1.5em;
+    font: bold 1em 'Baloo Chettan 2';
+}
+
+.error {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.on {
+    color: #212529!important;
+}    
+
+@media only screen and (max-width: 700px) {
+    .nav_bar a {
+        margin: 0 1.5em;
     }
+
+    .menu_item {
+        margin: 0 1em;
+    }
+}
+
