@@ -6,7 +6,7 @@ const coppyArray = function (arr) {
     return arr.slice();
 };
 
-const fillProductsArr = function () {
+const fillProductsArr = () => {
     let i = 0;
     while (i < products.length) {
         const pizza = new PizzaCard(products[i], ingredientsData);
@@ -15,7 +15,7 @@ const fillProductsArr = function () {
     }
 };
 
-const drowProducts = function () {
+const drowProducts = () => {
     arr.forEach(pizza => pizza.createProductCard());
 };
 
@@ -94,19 +94,19 @@ let copiedArrey = coppyArray(arr);
 const gridViewBtn = document.getElementById('grid_button');
 const listViewBtn = document.getElementById('list_button');
 
-const switchViewType = function () {
+const switchViewType = () => {
     gridViewBtn.classList.toggle('on');
     listViewBtn.classList.toggle('on');
 }
 
-const gridView = function () {
+const gridView = () => {
     if (gridViewBtn.className == "switch-button") {
         switchViewType();
         root.classList.remove('list_view');
     }
 };
 
-const listView = function () {
+const listView = () => {
     if (listViewBtn.className == "switch-button") {
         switchViewType();
         root.classList.add('list_view');
@@ -127,9 +127,9 @@ const h1 = document.getElementById('h_1');
 
 let firstView = true;
 
-const productsCall = function () {
+const productsCall = () => {
 
-    const productsOn = function () {
+    const productsOn = () => {
         startContent.classList.add('hidden');
         h1.classList.add('hidden');
         productsManuBtn.classList.add('on');
@@ -153,7 +153,7 @@ productsManuBtn.addEventListener('click', productsCall);
 
 
 
-const mainCall = function () {
+const mainCall = () => {
     if (mainManuBtn.className == '') {
         mainManuBtn.className = 'on';
         productsManuBtn.className = '';
@@ -169,7 +169,7 @@ mainManuBtn.addEventListener('click', mainCall);
 const chooseGridBtn = document.getElementById('choose_grid');
 const chooseListBtn = document.getElementById('choose_list');
 
-const chooseGrid = function () {
+const chooseGrid = () => {
     contentChoose.classList.add('hidden');
     contentProductsControl.classList.remove('hidden');
     root.classList.remove('hidden');
@@ -177,7 +177,7 @@ const chooseGrid = function () {
     drowProducts();
 };
 
-const chooseList = function () {
+const chooseList = () => {
     root.classList.add('list_view');
     chooseGrid();
     gridViewBtn.classList.remove('on');
@@ -192,7 +192,7 @@ const nameFilterBtn = document.getElementById('name_filter_button');
 const priceFilterBtn = document.getElementById('prise_filter_button');
 
 
-const filtredByName = function () {
+const filtredByName = () => {
     const filtr = coppyArray(copiedArrey).sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
@@ -203,7 +203,7 @@ const filtredByName = function () {
     return filtr;
 }
 
-const filtredByPrice = function () {
+const filtredByPrice = () => {
     const filtr = coppyArray(copiedArrey).sort((a, b) => {
         return a.price - b.price;
     });
@@ -223,8 +223,8 @@ const filterFunc = function (buttonOn, buttonOff, filter) {
         copiedArrey.forEach(pizza => pizza.createProductCard());
     }
 };
-const filterFuncName = function () { filterFunc(nameFilterBtn, priceFilterBtn, filtredByName); };
-const filterFuncPrice = function () { filterFunc(priceFilterBtn, nameFilterBtn, filtredByPrice); };
+const filterFuncName = () => { filterFunc(nameFilterBtn, priceFilterBtn, filtredByName); };
+const filterFuncPrice = () => { filterFunc(priceFilterBtn, nameFilterBtn, filtredByPrice); };
 
 priceFilterBtn.addEventListener('click', filterFuncPrice);
 nameFilterBtn.addEventListener('click', filterFuncName);
@@ -234,19 +234,19 @@ const headerSearchInp = document.getElementById('header_search');
 const searchForm = document.getElementById('search_form');
 const errorMessage = document.getElementById("error");
 
-const filterForSearch = function () {
+const filterForSearch = () => {
     if (nameFilterBtn.className == 'switch-filter on') {
-        nameFilterBtn.className.remove('on');
+        nameFilterBtn.classList.remove('on');
         filterFuncName();
     } else if ( priceFilterBtn.className == 'switch-filter on') {
-        priceFilterBtn.className.remove('on');
+        priceFilterBtn.classList.remove('on');
         filterFuncPrice();
     } else {
         copiedArrey.forEach(pizza => pizza.createProductCard());
     }
 };
 
-searchForm.onsubmit = function () {
+searchForm.onsubmit = () => {
     firstView = false;
     if (mainManuBtn.className == 'on') { productsCall(); }
     if (errorMessage.classList == "error") {
@@ -279,7 +279,7 @@ searchForm.onsubmit = function () {
 
 // reset search
 const resetBtn = document.getElementById('reset_button');
-const resetSearchItems = function () {
+const resetSearchItems = () => {
     copiedArrey = coppyArray(arr);
     root.innerHTML = '';
     nameFilterBtn.className = 'switch-filter';
