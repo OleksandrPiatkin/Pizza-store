@@ -1,25 +1,26 @@
 const root = document.getElementById('root');
+const cartRoot = document.getElementById('cart_root');
+const customRoot = document.getElementById('custom_root');
+const customName = document.getElementById('custom_name');
+const customCalories = document.getElementById('custom_calories');
+const customPrice = document.getElementById('custom_price');
 
 let arr = [];
-
-const coppyArray = function (arr) {
-    return arr.slice();
-};
+let customerCartArr = [];
 
 const fillProductsArr = () => {
-    let i = 0;
-    while (i < products.length) {
-        const pizza = new PizzaCard(products[i], ingredientsData);
-        i++;
+
+    for (let i = 0; i < products.length; i++) {
+        const pizza = new PizzaCard(products[i]);
         arr.push(pizza);
     }
 };
 
-const drowProducts = () => {
+const drowProducts = (arr) => {
     arr.forEach(pizza => pizza.createProductCard());
 };
 
-const parametersCalculation = function (ingredients) {
+const parametersCalculation = ingredients => {
     // pizza dough price & calories
     let countedPrice = 5;
     let countedCalories = 250;
@@ -34,41 +35,36 @@ const parametersCalculation = function (ingredients) {
             }
         })
     })
-    return [countedPrice, countedCalories];
+    return { countedPrice, countedCalories };
 };
 
 class PizzaCard {
-    constructor({ name, ingredients }, ingredientsData) {
+    constructor({ name, ingredients, amount = 1, id = arr.length }) {
+        this.id = id;
         this.name = name;
         this.ingredients = ingredients;
         this.parameters = parametersCalculation(this.ingredients);
-        this.price = this.parameters[0];
-        this.calories = this.parameters[1];
+        this.price = this.parameters.countedPrice;
+        this.calories = this.parameters.countedCalories;
+        this.amount = amount;
     }
 
-    createProductCard() {
+    backgroundStyle() {
+        const reverseArr = [...this.ingredients].reverse();
+        let bgStyle = '';
+        reverseArr.forEach(element => {
+            bgStyle += `url(./img/${element.replace(' ', '_')}.svg) no-repeat center, `;
+        });
+        return bgStyle;
+    }
 
-        const article = document.createElement('article');
-        root.appendChild(article);
-
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        ctx.beginPath();
-        ctx.arc(100, 75, 75, 0, 2 * Math.PI, true);
-        ctx.fillStyle = '#F57F17';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(100, 75, 70, 0, 2 * Math.PI, true);
-        ctx.fillStyle = '#FBC02D';
-        ctx.fill();
-        article.appendChild(canvas);
-
-        const header = document.createElement('h2');
+    createBasicChar(articleFront) {
+        const header = document.createElement('h3');
         header.innerHTML = this.name;
-        article.appendChild(header);
+        articleFront.appendChild(header);
 
         const description = document.createElement('ul');
-        article.appendChild(description);
+        articleFront.appendChild(description);
 
         const ingredientsD = document.createElement('li');
         const ingredientsStr = `Ingredients: ${this.ingredients.join(', ')}.`;
@@ -85,10 +81,132 @@ class PizzaCard {
         priceD.innerHTML = priceStr;
         description.appendChild(priceD);
     }
+
+    createProductCard() {
+        const cardWrap = document.createElement('div');
+        cardWrap.className = 'card_wrapper';
+        cardWrap.id = this.id;
+        root.appendChild(cardWrap);
+
+        // front
+        const articleFront = document.createElement('article');
+        articleFront.className = 'front';
+        cardWrap.appendChild(articleFront);
+
+        const listImg = document.createElement("img");
+        listImg.className = 'list_icon';
+        articleFront.appendChild(listImg);
+
+        this.createBasicChar(articleFront);
+
+        const editBtn = document.createElement('button');
+        editBtn.classList = 'edit_button';
+        editBtn.innerHTML = 'Edit';
+        articleFront.appendChild(editBtn);
+
+        const addBtn = document.createElement('button');
+        addBtn.classList = 'add_button';
+        addBtn.innerHTML = 'Add to cart';
+        articleFront.appendChild(addBtn);
+
+        //back
+        const articicleBack = document.createElement('article');
+        articicleBack.className = 'back';
+
+        const backStyle = `background: ${this.backgroundStyle()}url(./img/base.svg) no-repeat center; 
+        background-size: 95%;`;
+
+        articicleBack.style = backStyle;
+        cardWrap.appendChild(articicleBack);
+    }
+
+    createCartCard() {
+        const itemArticle = document.createElement('article');
+        itemArticle.className = 'cart_item';
+        itemArticle.id = `${this.id}`;
+        cartRoot.appendChild(itemArticle);
+
+        this.createBasicChar(itemArticle);
+
+        const controlGroup = document.createElement('div');
+        controlGroup.className = 'item_cart_control';
+        itemArticle.appendChild(controlGroup);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList = 'delete_button';
+        deleteBtn.innerHTML = '-';
+        controlGroup.appendChild(deleteBtn);
+
+        const ammount = document.createElement('span');
+        ammount.innerHTML = ` ${this.amount} `;
+        controlGroup.appendChild(ammount);
+
+        const plussBtn = document.createElement('button');
+        plussBtn.classList = 'pluss_button';
+        plussBtn.innerHTML = '+';
+        controlGroup.appendChild(plussBtn);
+    }
+
+    renderChooseGroup() {
+
+        customName.innerHTML = this.name;
+        customCalories.innerHTML = this.calories;
+        customPrice.innerHTML = this.price;
+        customRoot.innerHTML = '';
+
+        const ingredientsList = document.createElement('ul');
+        ingredientsList.className = 'choose_group';
+        ingredientsList.id = `${this.id}`;
+        customRoot.appendChild(ingredientsList);
+
+        const copiedData = [...ingredientsData];
+
+        copiedData.forEach(element => {
+            element["amount"] = 0;
+        });
+
+        this.ingredients.forEach(ingredient => {
+            let idexIngr;
+            copiedData.forEach(obj => {
+                if (obj.name == ingredient) { idexIngr = copiedData.indexOf(obj); }
+            });
+            copiedData[idexIngr].amount += 1;
+        });
+
+        copiedData.forEach((element) => {
+
+            const liElement = document.createElement('li');
+            const liClassName = element.name.toLocaleLowerCase();
+            const liName = element.name.charAt(0).toUpperCase() + element.name.slice(1);
+            liElement.className = `${liClassName.replace(' ', '_')}`;
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList = 'delete_button';
+            deleteBtn.innerHTML = '-';
+            liElement.appendChild(deleteBtn);
+
+            const ammount = document.createElement('span');
+            ammount.innerHTML = ` ${element.amount} `;
+            liElement.appendChild(ammount);
+
+            const plussBtn = document.createElement('button');
+            plussBtn.classList = 'pluss_button';
+            plussBtn.innerHTML = '+';
+            liElement.appendChild(plussBtn);
+
+            const nameSpan = document.createElement('span');
+            nameSpan.innerHTML = liName;
+            liElement.appendChild(nameSpan);
+
+            ingredientsList.appendChild(liElement);
+        });
+
+    }
 }
 
 fillProductsArr();
-let copiedArrey = coppyArray(arr);
+
+let copiedArray = [...arr];
 
 //Products view changing
 const gridViewBtn = document.getElementById('grid_button');
@@ -97,7 +215,7 @@ const listViewBtn = document.getElementById('list_button');
 const switchViewType = () => {
     gridViewBtn.classList.toggle('on');
     listViewBtn.classList.toggle('on');
-}
+};
 
 const gridView = () => {
     if (gridViewBtn.className == "switch-button") {
@@ -106,7 +224,7 @@ const gridView = () => {
     }
 };
 
-const listView = () => {
+const listView = (e) => {
     if (listViewBtn.className == "switch-button") {
         switchViewType();
         root.classList.add('list_view');
@@ -123,46 +241,43 @@ const mainImgBtn = document.getElementById('img_btn_main');
 const startContent = document.getElementById('content_start');
 const contentProductsControl = document.getElementById('content_products_control');
 const contentChoose = document.getElementById('content_choose');
-const h1 = document.getElementById('h_1');
+const productsWrap = document.getElementById('products_wrap');
 
 let firstView = true;
 
-const productsCall = () => {
+const productsOn = () => {
+    startContent.classList.add('hidden');
+    productsWrap.classList.remove('hidden');
+    customerCartSection.classList.add('hidden');
+    productsManuBtn.classList.add('on');
+    mainManuBtn.classList = '';
+    shoppingCartBtn.className = '';
+};
 
-    const productsOn = () => {
-        startContent.classList.add('hidden');
-        h1.classList.add('hidden');
-        productsManuBtn.classList.add('on');
-        mainManuBtn.classList.remove('on');
-    };
+const productsCall = () => {
 
     if (firstView) {
         contentChoose.classList.remove('hidden');
         productsOn();
         firstView = false;
     } else {
-        if (mainManuBtn.classList == 'on') {
-            root.classList.remove('hidden');
+        if (mainManuBtn.classList == 'on' || shoppingCartBtn.classList == 'on') {
             productsOn();
-            contentProductsControl.classList.remove('hidden');
         }
     }
 };
 mainImgBtn.addEventListener('click', productsCall);
 productsManuBtn.addEventListener('click', productsCall);
 
-
-
 const mainCall = () => {
     if (mainManuBtn.className == '') {
         mainManuBtn.className = 'on';
         productsManuBtn.className = '';
+        shoppingCartBtn.className = '';
+        customerCartSection.classList.add('hidden');
         startContent.classList.remove('hidden');
-        h1.classList.remove('hidden');
-        root.classList.add('hidden');
-        contentProductsControl.classList.add('hidden');
+        productsWrap.classList.add('hidden');
     }
-
 };
 mainManuBtn.addEventListener('click', mainCall);
 
@@ -172,9 +287,8 @@ const chooseListBtn = document.getElementById('choose_list');
 const chooseGrid = () => {
     contentChoose.classList.add('hidden');
     contentProductsControl.classList.remove('hidden');
-    root.classList.remove('hidden');
     root.innerHTML = '';
-    drowProducts();
+    drowProducts(arr);
 };
 
 const chooseList = () => {
@@ -191,9 +305,12 @@ chooseGridBtn.addEventListener('click', chooseGrid);
 const nameFilterBtn = document.getElementById('name_filter_button');
 const priceFilterBtn = document.getElementById('prise_filter_button');
 
+const renderPizza = (arrayName) => {
+    arrayName.forEach(pizza => pizza.createProductCard());
+};
 
 const filtredByName = () => {
-    const filtr = coppyArray(copiedArrey).sort((a, b) => {
+    const filtr = [...copiedArray].sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
         if (nameA < nameB) { return -1; }
@@ -201,36 +318,36 @@ const filtredByName = () => {
         return 0;
     });
     return filtr;
-}
+};
 
 const filtredByPrice = () => {
-    const filtr = coppyArray(copiedArrey).sort((a, b) => {
-        return a.price - b.price;
-    });
-    return filtr;
-}
+    const filtred = [...copiedArray].sort((a, b) => a.price - b.price);
+    return filtred;
+};
 
-const filterFunc = function (buttonOn, buttonOff, filter) {
+const filterFunc = function (btn, filter) {
+    const buttonOn = btn;
+    const buttonOff = btn === nameFilterBtn ? priceFilterBtn : nameFilterBtn;
+    root.innerHTML = '';
 
     if (buttonOn.className == 'switch-filter') {
         buttonOn.classList.add('on');
         buttonOff.classList.remove('on');
-        root.innerHTML = '';
-        filter().forEach(pizza => pizza.createProductCard());
+        const filtredArr = filter();
+        renderPizza(filtredArr);
     } else {
-        root.innerHTML = '';
         buttonOn.classList.remove('on');
-        copiedArrey.forEach(pizza => pizza.createProductCard());
+        renderPizza(copiedArray);
     }
 };
-const filterFuncName = () => { filterFunc(nameFilterBtn, priceFilterBtn, filtredByName); };
-const filterFuncPrice = () => { filterFunc(priceFilterBtn, nameFilterBtn, filtredByPrice); };
+const filterFuncName = () => { filterFunc(nameFilterBtn, filtredByName); };
+const filterFuncPrice = () => { filterFunc(priceFilterBtn, filtredByPrice); };
 
 priceFilterBtn.addEventListener('click', filterFuncPrice);
 nameFilterBtn.addEventListener('click', filterFuncName);
 
 // search by ingredients Form
-const headerSearchInp = document.getElementById('header_search');
+const productsSearchInp = document.getElementById('products_search');
 const searchForm = document.getElementById('search_form');
 const errorMessage = document.getElementById("error");
 
@@ -238,52 +355,280 @@ const filterForSearch = () => {
     if (nameFilterBtn.className == 'switch-filter on') {
         nameFilterBtn.classList.remove('on');
         filterFuncName();
-    } else if ( priceFilterBtn.className == 'switch-filter on') {
+    } else if (priceFilterBtn.className == 'switch-filter on') {
         priceFilterBtn.classList.remove('on');
         filterFuncPrice();
     } else {
-        copiedArrey.forEach(pizza => pizza.createProductCard());
+        renderPizza(copiedArray);
     }
 };
 
-searchForm.onsubmit = () => {
-    firstView = false;
+const condition = (element) => {
+    const searchRequest = productsSearchInp.value;
+    const searchLower = searchRequest.toLowerCase();
+
+    const result = element.ingredients.reduce(function (result, name) {
+        const elementName = name.toLowerCase();
+        const check = elementName.indexOf(searchLower) + 1;
+        return result + check;
+    }, 0)
+    return result;
+};
+
+const searchFunc = () => {
+
     if (mainManuBtn.className == 'on') { productsCall(); }
-    if (errorMessage.classList == "error") {
-        errorMessage.classList.add("hidden");
-    }
-    const searchRequest = headerSearchInp.value;
+    if (errorMessage.classList == "error") { errorMessage.classList.add("hidden"); }
+
     root.innerHTML = '';
-    copiedArrey = [];
+    copiedArray = [];
+    const productsArr = [...arr];
 
-    coppyArray(arr).forEach((element) => {
-
-        if (element.ingredients.reduce(function (result, name) {
-            const searchLower = searchRequest.toLowerCase();
-            const elementName = name.toLowerCase();
-            const check = elementName.indexOf(searchLower) + 1;
-
-            return result + check;
-        }, 0)
-        ) {
-            copiedArrey.push(element);
-        }
+    productsArr.forEach((element) => {
+        if (condition(element)) { copiedArray.push(element); }
     });
 
-    if (copiedArrey.length != 0) {
+    if (copiedArray.length) {
         filterForSearch();
     } else {
         errorMessage.classList.remove("hidden");
     }
 };
+searchForm.addEventListener('submit', searchFunc, productsCall);
+
+productsSearchInp.addEventListener('input', evt => searchFunc());
 
 // reset search
 const resetBtn = document.getElementById('reset_button');
+
 const resetSearchItems = () => {
-    copiedArrey = coppyArray(arr);
+    copiedArray = [...arr];
     root.innerHTML = '';
     nameFilterBtn.className = 'switch-filter';
     priceFilterBtn.className = 'switch-filter';
-    drowProducts();
-}
+    drowProducts(copiedArray);
+};
 resetBtn.addEventListener('click', resetSearchItems);
+
+// product card & cart
+const productsCartCounter = document.getElementById('cart-count');
+const shoppingCartBtn = document.getElementById('shopping_cart_button');
+const customerCartSection = document.getElementById('customer_cart');
+const totalPrice = document.getElementById('total_price');
+const customPizzaBlock = document.getElementById('custom_pizza');
+const customCloseBtn = document.getElementById('custom_close_button');
+const customControle = document.getElementById('custom_controle');
+
+const saveCartLocal = () => {
+    localStorage.setItem('customerCart', JSON.stringify(customerCartArr));
+}
+
+const totalPriseCount = () => {
+    const result = customerCartArr.reduce(function (result, element) {
+        const price = element.price * element.amount;
+
+        return result + price;
+    }, 0)
+    return result;
+};
+
+const cartCharCounter = () => {
+    productsCartCounter.innerHTML = `${customerCartArr.length} `;
+    totalPrice.innerHTML = `${totalPriseCount()}`;
+};
+
+const findIndex = (id) => {
+    let index;
+    copiedArray.forEach(element => {
+        if (element.id == id) {
+            index = copiedArray.indexOf(element);
+        }
+    });
+    return index;
+};
+
+const addCartItem = (id) => {
+
+    if (customerCartArr.length > 0) {
+
+        const checkSameId = customerCartArr.find((pizzaObj) => {
+            return pizzaObj.id == id;
+        });
+        checkSameId ? (checkSameId.amount += 1) : customerCartArr.push(copiedArray[findIndex(id)]);
+
+    } else {
+        customerCartArr.push(copiedArray[findIndex(id)]);
+    }
+    saveCartLocal();
+    cartCharCounter();
+};
+
+const editCall = (div) => {
+    customPizzaBlock.classList.remove('hidden');
+    const selectedOdj = copiedArray[findIndex(div.id)];
+    selectedOdj.renderChooseGroup();
+    customName.className = div.id;
+};
+
+root.onclick = (event) => {
+    const div = event.target.closest('div');
+    if (event.target.className == 'edit_button') {
+        editCall(div);
+        return;
+    }
+    if (event.target.className == 'add_button') {
+        addCartItem(div.id);
+        return;
+    }
+    if (div.tagName == 'DIV') {
+        div.classList.toggle('clicked');
+    }
+};
+
+const clearCartRoot = () => {
+    cartRoot.innerHTML = '';
+};
+
+const cartRender = () => {
+    clearCartRoot();
+    cartCharCounter();
+    customerCartArr.forEach(pizza => {
+        const obj = new PizzaCard(pizza);
+        obj.createCartCard(customerCartArr);
+    });
+};
+
+const printEmpty = () => {
+    clearCartRoot();
+    cartRoot.innerHTML = 'Сart is empty';
+};
+
+const cartCall = () => {
+    if (shoppingCartBtn.className == '') {
+        shoppingCartBtn.className = 'on';
+        mainManuBtn.classList = '';
+        productsManuBtn.className = '';
+        productsWrap.classList.add('hidden');
+        startContent.classList.add('hidden');
+        customerCartSection.classList.remove('hidden');
+
+        customerCartArr.length > 0 ? cartRender() : printEmpty();
+    }
+};
+shoppingCartBtn.addEventListener('click', cartCall);
+
+const setCartItem = (article, btn) => {
+
+    const selectedObj = customerCartArr.find((pizzaObj) => {
+        return pizzaObj.id == article.id;
+    });
+
+    const selectedObjIdex = customerCartArr.indexOf(selectedObj);
+    btn == 'delete' ? (
+        selectedObj.amount == 1 ? customerCartArr.splice(selectedObjIdex, 1) : (selectedObj.amount -= 1)
+    ) : (
+            selectedObj.amount += 1
+        );
+    saveCartLocal();
+};
+
+cartRoot.onclick = (event) => {
+    const article = event.target.closest('article');
+    if (event.target.className == 'delete_button') {
+        setCartItem(article, 'delete');
+        cartRender();
+        return;
+    } else if (event.target.className == 'pluss_button') {
+        setCartItem(article, 'plus');
+        cartRender();
+        return;
+    } else return;
+};
+
+const closeCustom = () => {
+    customPizzaBlock.classList.add('hidden');
+
+    if (customControle.classList == 'custom_controle hidden') {
+        const currentId = customName.className;
+        const changedObj = new PizzaCard(copiedArray[findIndex(currentId)]);
+
+        changedObj.id = Math.round(Math.random() * 1000000);
+        copiedArray[findIndex(currentId)] = changedObj;
+
+        root.innerHTML = '';
+        renderPizza(copiedArray);
+    } else if (customControle.classList == 'custom_controle') {
+        customControle.classList.add('hidden');
+    }
+};
+customCloseBtn.addEventListener('click', closeCustom);
+
+const localStorageCheck = () => {
+    if (localStorage.getItem('customerCart')) {
+        customerCartArr = JSON.parse(localStorage.getItem('customerCart'));
+        cartCharCounter();
+    }
+};
+localStorageCheck();
+
+// pizza customize
+const customWindowBtn = document.getElementById('custom_window_btn');
+const customPizzaBody = document.getElementById('custom_pizza');
+
+
+const changeIngredients = (list, listItem, btn) => {
+
+    const selectedIngredient = listItem.className.replace('_', ' ');
+    const itemIngredients = copiedArray[findIndex(list.id)].ingredients;
+
+    if (btn == 'delete_button') {
+        const searchIndex = itemIngredients.indexOf(selectedIngredient);
+        if (searchIndex >= 0) { itemIngredients.splice(searchIndex, 1) }
+    } else if (btn == 'pluss_button') {
+        itemIngredients.push(selectedIngredient);
+    }
+
+    const changedObj = new PizzaCard(copiedArray[findIndex(list.id)]);
+    changedObj.renderChooseGroup();
+    copiedArray[findIndex(list.id)] = changedObj;
+    root.innerHTML = '';
+    renderPizza(copiedArray);
+};
+
+customPizzaBody.onclick = event => {
+    const list = event.target.closest('ul');
+    const listItem = event.target.closest('li');
+
+    if (event.target.className == 'delete_button') { changeIngredients(list, listItem, 'delete_button'); }
+    else if (event.target.className == 'pluss_button') { changeIngredients(list, listItem, 'pluss_button'); }
+    else if (event.target.className == 'custom_add_button') {
+        addCartItem(copiedArray[copiedArray.length - 1].id);
+        cartRender();
+        closeCustom();
+        return;
+    } else return;
+}
+
+let customPizzaArr = [];
+
+const createCustomPizza = () => {
+
+    if (customPizzaBlock.classList == 'custom_pizza hidden') {
+
+        customPizzaBlock.classList.remove('hidden');
+        customControle.classList.remove('hidden');
+
+        const newPizzaObj = {};
+        const newId = Math.round(Math.random() * 1000000);
+        const newName = `Custom pizza ${customPizzaArr.length + 1}`;
+        newPizzaObj["id"] = newId;
+        newPizzaObj["name"] = newName;
+        newPizzaObj["ingredients"] = [];
+
+        const newPizza = new PizzaCard(newPizzaObj);
+        newPizza.renderChooseGroup();
+        customPizzaArr.push(newPizza);
+        copiedArray.push(newPizza);
+    }
+};
+customWindowBtn.addEventListener('click', createCustomPizza);

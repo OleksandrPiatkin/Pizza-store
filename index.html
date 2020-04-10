@@ -5,48 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yours Pizza</title>
-    <link rel="icon" type="image/png" href="./img/unnamed.png">
+    <link rel="icon" type="image" href="./img/logo.svg">
     <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/1e80f70260.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <section class="wrapper">
+    <div class="wrapper">
         <header>
             <nav class="nav_bar">
                 <ul class="menu">
-                    <li class="menu_item"><a id="main_page_btn" class="on" href="#">Main Page</a></li>
+                    <li class="menu_item"><a id="main_page_btn" class="on" href="#">Main</a></li>
                     <li class="menu_item"><a id="products_page_btn" class="" href="#">Products</a></li>
+                    <li class="menu_item"><a id="custom_window_btn"  href="#">Pizza Constructor</a></li>
                 </ul>
-                <form class="search-bar" id="search_form">
-                    <input id="header_search" class="search-bar-input" type="search"
-                        placeholder="Search by ingredients...">
-                    <button class="search-bar-submit" href="#"><i class="fas fa-search"></i></button>
-                </form>
-                <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                <button id="shopping_cart_button">
+                    <span id="cart-count"></span>
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
             </nav>
         </header>
         <main>
-            <h1 id="h_1">Get yours pizza</h1>
-            <section id="content_choose" class="content content_choose hidden">
-                <h2>Please choose view:</h2>
-                <i id="choose_grid" class="fas fa-th"></i>
-                <i id="choose_list" class="fas fa-bars"></i>
-            </section>
-            <section id="content_products_control" class="content content_products_control hidden">
-                <h2>Try a standart one
-                    <span id="list_button" class="switch-button"><i class="fas fa-bars"></i></span>
-                    <span id="grid_button" class="switch-button on"><i class="fas fa-th"></i></span>
-                </h2>
-                <h3>Filter by:
-                    <span id="name_filter_button" class="switch-filter">Name</span>
-                    <span id="prise_filter_button" class="switch-filter">Prise</span>
-                    <button id="reset_button" class="reset_button">Reset search</button>
-                </h3>
-            </section>
-            <div id="root" class="content_products hidden"></div>
             <section id="content_start" class="content content_start">
+                <h1>Get yours pizza</h1>
                 <article>
                     <h3>Free, Delivery!*</h3>
                     <a id="img_btn_main" class="img_block" href="#"><span class="main_img"></span></a>
@@ -61,7 +43,59 @@
                         aperiam dicta nesciunt accusamus laboriosam!</p>
                 </article>
             </section>
-            <h3 id="error" class="error hidden">Oops, something went wrong. Please try a different request ... </h3>
+            <section id="products_wrap" class="hidden">
+                <section id="content_choose" class="content content_choose hidden">
+                    <h2>Please choose view:</h2>
+                    <button id="choose_grid"><i class="fas fa-th"></i></button>
+                    <button id="choose_list"><i class="fas fa-bars"></i></button>
+                </section>
+                <section id="content_products_control" class="content content_products_control hidden">
+                    <h2>Try a standart one
+                        <button id="list_button" class="switch-button"><i class="fas fa-bars"></i></button>
+                        <button id="grid_button" class="switch-button on"><i class="fas fa-th"></i></button>
+                    </h2>
+                    <h3>Sort:
+                        <button id="name_filter_button" class="switch-filter">Name</button>
+                        <button id="prise_filter_button" class="switch-filter">Price</button>
+                        <button id="reset_button" class="reset_button">Reset</button>
+                    </h3>
+                    <form class="search-bar" id="search_form">
+                        <input id="products_search" class="search-bar-input" type="search"
+                            placeholder="Search by ingredients...">
+                        <button class="search-bar-submit" href="#"><i class="fas fa-search"></i></button>
+                    </form>
+                </section>
+                <section id="root" class="content_products"></section>
+                <p id="error" class="error hidden">Oops, something went wrong. Please try a different request ... </p>
+            </section>
+            <section id="customer_cart" class="content customer_cart hidden">
+                <article class="cart_items">
+                    <h2>Shopping Cart</h2>
+                    <div id="cart_root" class="cart_root"></div>
+                </article>
+                <form class="cart_submit" action="#">
+                    <h2>Order Summary</h2>
+                    <dl class="total_price">
+                        <dt>Total</dt>
+                        <dd><span id="total_price">0,0</span> $</dd>
+                    </dl>
+                    <button class="cart_submit_button">BUY</button>
+                </form>
+            </section>
+            <section id="custom_pizza" class="custom_pizza hidden">
+                <div class="custom_wrap">
+                    <button id="custom_close_button" class="custom_close_button">X</button>
+                    <ul class="custom_char">
+                        <li>Name: <span id="custom_name"></span></li>
+                        <li>Calories: <span id="custom_calories"></span></li>
+                        <li>Price: <span id="custom_price"></span></li>
+                    </ul>
+                    <div id="custom_controle" class="custom_controle hidden">
+                        <button class="custom_add_button">Add to cart</button>
+                    </div>
+                </div>
+                <div id="custom_root" class="custom_root"></div>
+            </section>
         </main>
         <footer>
             <p>the company Name &copy;</p>

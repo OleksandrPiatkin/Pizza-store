@@ -1,72 +1,72 @@
 const products = [
     {
         name: 'Margherita',
-        ingredients: ["Tomato sauce", "mozzarella", "oregano"],
+        ingredients: ["tomato sauce", "mozzarella", "oregano"],
     },
     {
         name: 'Marinara',
-        ingredients: ["Tomato sauce", "garlic", "basil"],
+        ingredients: ["tomato sauce", "garlic", "basil"],
     },
     {
         name: 'Quattro Stagioni',
-        ingredients: ["Tomato sauce", "mozzarella", "mushrooms", "ham", "artichokes", "olives", "oregano"],
+        ingredients: ["tomato sauce", "mozzarella", "mushrooms", "ham", "artichokes", "olives", "oregano"],
     },
     {
         name: 'Carbonara',
-        ingredients: ["Tomato sauce", "mozzarella", "parmesan", "eggs", "bacon"],
+        ingredients: ["tomato sauce", "mozzarella", "parmesan", "eggs", "bacon"],
     },
     {
         name: 'Frutti di Mare',
-        ingredients: ["Tomato sauce", "seafood"],
+        ingredients: ["tomato sauce", "seafood"],
     },
     {
         name: 'Quattro Formaggi',
-        ingredients: ["Tomato sauce", "mozzarella", "parmesan", "gorgonzola", "artichokes", "oregano"],
+        ingredients: ["tomato sauce", "mozzarella", "parmesan", "gorgonzola", "artichokes", "oregano"],
     },
     {
         name: 'Crudo',
-        ingredients: ["Tomato sauce", "mozzarella", "Parma ham"],
+        ingredients: ["tomato sauce", "mozzarella", "parma ham"],
     },
     {
         name: 'Napoli',
-        ingredients: ["Tomato sauce", "mozzarella", "oregano", "anchovies"],
+        ingredients: ["tomato sauce", "mozzarella", "oregano", "anchovies"],
     },
     {
         name: 'Pugliese',
-        ingredients: ["Tomato sauce", "mozzarella", "oregano", "onions"],
+        ingredients: ["tomato sauce", "mozzarella", "oregano", "onions"],
     },
     {
         name: 'Montanara',
-        ingredients: ["Tomato sauce", "mozzarella", "mushrooms", "pepperoni", "soft cheese"],
+        ingredients: ["tomato sauce", "mozzarella", "mushrooms", "pepperoni", "soft cheese"],
     },
     {
         name: 'Emiliana',
-        ingredients: ["Tomato sauce", "mozzarella", "eggplant", "boiled potatoes", "sausage"],
+        ingredients: ["tomato sauce", "mozzarella", "eggplant", "boiled potatoes", "sausage"],
     },
     {
         name: 'Romana',
-        ingredients: ["Tomato sauce", "mozzarella", "anchovies", "capers", "oregano"],
+        ingredients: ["tomato sauce", "mozzarella", "anchovies", "capers", "oregano"],
     },
     {
         name: 'Fattoria',
-        ingredients: ["Tomato sauce", "mozzarella", "peppers", "peas", "porchetta"],
+        ingredients: ["tomato sauce", "mozzarella", "peppers", "peas", "porchetta"],
     },
     {
         name: 'Schiacciata',
-        ingredients: ["Olive oil", "rosemary"],
+        ingredients: ["olive oil", "rosemary"],
     },
     {
         name: 'Prosciutto',
-        ingredients: ["Tomato sauce", "mozzarella", "ham", "oregano"],
+        ingredients: ["tomato sauce", "mozzarella", "ham", "oregano"],
     },
     {
         name: 'Prosciutto e Funghi',
-        ingredients: ["Tomato sauce", "mozzarella", "ham", "mushrooms"],
+        ingredients: ["tomato sauce", "mozzarella", "ham", "mushrooms"],
     }
 ];
 const ingredientsData = [ 
     {
-        name: "Tomato sauce",
+        name: "tomato sauce",
         price: 2,
         calories: 33
     },
@@ -136,7 +136,7 @@ const ingredientsData = [
         calories: 190
     },
     {
-        name: "Parma ham",
+        name: "parma ham",
         price: 7,
         calories: 120
     },
@@ -196,7 +196,7 @@ const ingredientsData = [
         calories: 215
     },
     {
-        name: "Olive oil",
+        name: "olive oil",
         price: 3,
         calories: 70
     },
