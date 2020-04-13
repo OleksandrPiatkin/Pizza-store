@@ -16,17 +16,14 @@ const fillProductsArr = () => {
     }
 };
 
-const drowProducts = (arr) => {
-    arr.forEach(pizza => pizza.createProductCard());
-};
+const renderPizza = arr => arr.forEach(pizza => pizza.createProductCard());
 
 const parametersCalculation = ingredients => {
     // pizza dough price & calories
     let countedPrice = 5;
     let countedCalories = 250;
 
-    ingredients.forEach((item) => {
-        const ingredient = item;
+    ingredients.forEach(ingredient => {
 
         ingredientsData.forEach((element) => {
             if (element.name == ingredient) {
@@ -43,9 +40,9 @@ class PizzaCard {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
-        this.parameters = parametersCalculation(this.ingredients);
-        this.price = this.parameters.countedPrice;
-        this.calories = this.parameters.countedCalories;
+        const { countedPrice, countedCalories } = parametersCalculation(this.ingredients);
+        this.price = countedPrice;
+        this.calories = countedCalories;
         this.amount = amount;
     }
 
@@ -113,17 +110,32 @@ class PizzaCard {
         const articicleBack = document.createElement('article');
         articicleBack.className = 'back';
 
-        const backStyle = `background: ${this.backgroundStyle()}url(./img/base.svg) no-repeat center; 
-        background-size: 95%;`;
+        const backStyle = `background: ${this.backgroundStyle()}url(./img/base.svg) no-repeat center;`;
 
         articicleBack.style = backStyle;
         cardWrap.appendChild(articicleBack);
     }
 
+    renderControlGroup(controlContainer, obj) {
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList = 'delete_button';
+        deleteBtn.innerHTML = '-';
+        controlContainer.appendChild(deleteBtn);
+
+        const ammount = document.createElement('span');
+        ammount.innerHTML = obj.amount;
+        controlContainer.appendChild(ammount);
+
+        const plussBtn = document.createElement('button');
+        plussBtn.classList = 'pluss_button';
+        plussBtn.innerHTML = '+';
+        controlContainer.appendChild(plussBtn);
+    }
+
     createCartCard() {
         const itemArticle = document.createElement('article');
         itemArticle.className = 'cart_item';
-        itemArticle.id = `${this.id}`;
+        itemArticle.id = this.id;
         cartRoot.appendChild(itemArticle);
 
         this.createBasicChar(itemArticle);
@@ -132,19 +144,20 @@ class PizzaCard {
         controlGroup.className = 'item_cart_control';
         itemArticle.appendChild(controlGroup);
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.classList = 'delete_button';
-        deleteBtn.innerHTML = '-';
-        controlGroup.appendChild(deleteBtn);
+        this.renderControlGroup(controlGroup, this);
+    }
 
-        const ammount = document.createElement('span');
-        ammount.innerHTML = ` ${this.amount} `;
-        controlGroup.appendChild(ammount);
+    getIngredientsAmount() {
+        const mappedCopiedData = [...ingredientsData].map(element => ({ ...element, amount: 0 }));
 
-        const plussBtn = document.createElement('button');
-        plussBtn.classList = 'pluss_button';
-        plussBtn.innerHTML = '+';
-        controlGroup.appendChild(plussBtn);
+        this.ingredients.forEach(ingredient => {
+            let idexIngr;
+            mappedCopiedData.forEach(obj => {
+                if (obj.name == ingredient) { idexIngr = mappedCopiedData.indexOf(obj); }
+            });
+            mappedCopiedData[idexIngr].amount += 1;
+        });
+        return mappedCopiedData;
     }
 
     renderChooseGroup() {
@@ -156,43 +169,19 @@ class PizzaCard {
 
         const ingredientsList = document.createElement('ul');
         ingredientsList.className = 'choose_group';
-        ingredientsList.id = `${this.id}`;
+        ingredientsList.id = this.id;
         customRoot.appendChild(ingredientsList);
 
-        const copiedData = [...ingredientsData];
+        const amountOfIngredients = this.getIngredientsAmount();
 
-        copiedData.forEach(element => {
-            element["amount"] = 0;
-        });
-
-        this.ingredients.forEach(ingredient => {
-            let idexIngr;
-            copiedData.forEach(obj => {
-                if (obj.name == ingredient) { idexIngr = copiedData.indexOf(obj); }
-            });
-            copiedData[idexIngr].amount += 1;
-        });
-
-        copiedData.forEach((element) => {
+        amountOfIngredients.forEach(element => {
 
             const liElement = document.createElement('li');
             const liClassName = element.name.toLocaleLowerCase();
             const liName = element.name.charAt(0).toUpperCase() + element.name.slice(1);
             liElement.className = `${liClassName.replace(' ', '_')}`;
 
-            const deleteBtn = document.createElement('button');
-            deleteBtn.classList = 'delete_button';
-            deleteBtn.innerHTML = '-';
-            liElement.appendChild(deleteBtn);
-
-            const ammount = document.createElement('span');
-            ammount.innerHTML = ` ${element.amount} `;
-            liElement.appendChild(ammount);
-
-            const plussBtn = document.createElement('button');
-            plussBtn.classList = 'pluss_button';
-            plussBtn.innerHTML = '+';
-            liElement.appendChild(plussBtn);
+            this.renderControlGroup(liElement, element)
 
             const nameSpan = document.createElement('span');
             nameSpan.innerHTML = liName;
@@ -288,7 +277,7 @@ const chooseGrid = () => {
     contentChoose.classList.add('hidden');
     contentProductsControl.classList.remove('hidden');
     root.innerHTML = '';
-    drowProducts(arr);
+    renderPizza(arr);
 };
 
 const chooseList = () => {
@@ -305,9 +294,7 @@ chooseGridBtn.addEventListener('click', chooseGrid);
 const nameFilterBtn = document.getElementById('name_filter_button');
 const priceFilterBtn = document.getElementById('prise_filter_button');
 
-const renderPizza = (arrayName) => {
-    arrayName.forEach(pizza => pizza.createProductCard());
-};
+
 
 const filtredByName = () => {
     const filtr = [...copiedArray].sort((a, b) => {
@@ -320,10 +307,7 @@ const filtredByName = () => {
     return filtr;
 };
 
-const filtredByPrice = () => {
-    const filtred = [...copiedArray].sort((a, b) => a.price - b.price);
-    return filtred;
-};
+const filtredByPrice = () => [...copiedArray].sort((a, b) => a.price - b.price);
 
 const filterFunc = function (btn, filter) {
     const buttonOn = btn;
@@ -363,16 +347,9 @@ const filterForSearch = () => {
     }
 };
 
-const condition = (element) => {
-    const searchRequest = productsSearchInp.value;
-    const searchLower = searchRequest.toLowerCase();
-
-    const result = element.ingredients.reduce(function (result, name) {
-        const elementName = name.toLowerCase();
-        const check = elementName.indexOf(searchLower) + 1;
-        return result + check;
-    }, 0)
-    return result;
+const condition = ({ingredients}) => {
+    const searchRequest = productsSearchInp.value.toLowerCase();
+    return ingredients.some(name => name.match(searchRequest));
 };
 
 const searchFunc = () => {
@@ -406,7 +383,7 @@ const resetSearchItems = () => {
     root.innerHTML = '';
     nameFilterBtn.className = 'switch-filter';
     priceFilterBtn.className = 'switch-filter';
-    drowProducts(copiedArray);
+    renderPizza(copiedArray);
 };
 resetBtn.addEventListener('click', resetSearchItems);
 
@@ -423,18 +400,9 @@ const saveCartLocal = () => {
     localStorage.setItem('customerCart', JSON.stringify(customerCartArr));
 }
 
-const totalPriseCount = () => {
-    const result = customerCartArr.reduce(function (result, element) {
-        const price = element.price * element.amount;
-
-        return result + price;
-    }, 0)
-    return result;
-};
-
 const cartCharCounter = () => {
-    productsCartCounter.innerHTML = `${customerCartArr.length} `;
-    totalPrice.innerHTML = `${totalPriseCount()}`;
+    productsCartCounter.innerHTML = customerCartArr.length;
+    totalPrice.innerHTML = customerCartArr.reduce((result, { price, amount }) => result + price * amount, 0);
 };
 
 const findIndex = (id) => {
@@ -454,7 +422,7 @@ const addCartItem = (id) => {
         const checkSameId = customerCartArr.find((pizzaObj) => {
             return pizzaObj.id == id;
         });
-        checkSameId ? (checkSameId.amount += 1) : customerCartArr.push(copiedArray[findIndex(id)]);
+        checkSameId ? ++checkSameId.amount : customerCartArr.push(copiedArray[findIndex(id)]);
 
     } else {
         customerCartArr.push(copiedArray[findIndex(id)]);
@@ -463,14 +431,14 @@ const addCartItem = (id) => {
     cartCharCounter();
 };
 
-const editCall = (div) => {
+const editCall = div => {
     customPizzaBlock.classList.remove('hidden');
     const selectedOdj = copiedArray[findIndex(div.id)];
     selectedOdj.renderChooseGroup();
     customName.className = div.id;
 };
 
-root.onclick = (event) => {
+root.onclick = event => {
     const div = event.target.closest('div');
     if (event.target.className == 'edit_button') {
         editCall(div);
@@ -512,7 +480,7 @@ const cartCall = () => {
         startContent.classList.add('hidden');
         customerCartSection.classList.remove('hidden');
 
-        customerCartArr.length > 0 ? cartRender() : printEmpty();
+        customerCartArr.length ? cartRender() : printEmpty();
     }
 };
 shoppingCartBtn.addEventListener('click', cartCall);
@@ -524,15 +492,19 @@ const setCartItem = (article, btn) => {
     });
 
     const selectedObjIdex = customerCartArr.indexOf(selectedObj);
-    btn == 'delete' ? (
-        selectedObj.amount == 1 ? customerCartArr.splice(selectedObjIdex, 1) : (selectedObj.amount -= 1)
-    ) : (
-            selectedObj.amount += 1
-        );
+    if (btn == 'delete') {
+        if (selectedObj.amount == 1) {
+            customerCartArr.splice(selectedObjIdex, 1)
+        } else {
+            selectedObj.amount--;
+        }
+    } else {
+        selectedObj.amount++;
+    }
     saveCartLocal();
 };
 
-cartRoot.onclick = (event) => {
+cartRoot.onclick = event => {
     const article = event.target.closest('article');
     if (event.target.className == 'delete_button') {
         setCartItem(article, 'delete');
@@ -545,6 +517,8 @@ cartRoot.onclick = (event) => {
     } else return;
 };
 
+const createUniqId = () => Math.round(Math.random() * 1000000);
+
 const closeCustom = () => {
     customPizzaBlock.classList.add('hidden');
 
@@ -552,7 +526,7 @@ const closeCustom = () => {
         const currentId = customName.className;
         const changedObj = new PizzaCard(copiedArray[findIndex(currentId)]);
 
-        changedObj.id = Math.round(Math.random() * 1000000);
+        changedObj.id = createUniqId();
         copiedArray[findIndex(currentId)] = changedObj;
 
         root.innerHTML = '';
@@ -575,9 +549,9 @@ localStorageCheck();
 const customWindowBtn = document.getElementById('custom_window_btn');
 const customPizzaBody = document.getElementById('custom_pizza');
 
-
-const changeIngredients = (list, listItem, btn) => {
-
+const changeIngredients = (btn) => {
+    const list = event.target.closest('ul');
+    const listItem = event.target.closest('li');
     const selectedIngredient = listItem.className.replace('_', ' ');
     const itemIngredients = copiedArray[findIndex(list.id)].ingredients;
 
@@ -596,11 +570,8 @@ const changeIngredients = (list, listItem, btn) => {
 };
 
 customPizzaBody.onclick = event => {
-    const list = event.target.closest('ul');
-    const listItem = event.target.closest('li');
-
-    if (event.target.className == 'delete_button') { changeIngredients(list, listItem, 'delete_button'); }
-    else if (event.target.className == 'pluss_button') { changeIngredients(list, listItem, 'pluss_button'); }
+    if (event.target.className == 'delete_button') { changeIngredients('delete_button'); }
+    else if (event.target.className == 'pluss_button') { changeIngredients('pluss_button'); }
     else if (event.target.className == 'custom_add_button') {
         addCartItem(copiedArray[copiedArray.length - 1].id);
         cartRender();
@@ -618,12 +589,11 @@ const createCustomPizza = () => {
         customPizzaBlock.classList.remove('hidden');
         customControle.classList.remove('hidden');
 
-        const newPizzaObj = {};
-        const newId = Math.round(Math.random() * 1000000);
-        const newName = `Custom pizza ${customPizzaArr.length + 1}`;
-        newPizzaObj["id"] = newId;
-        newPizzaObj["name"] = newName;
-        newPizzaObj["ingredients"] = [];
+        const newPizzaObj = {
+            id: createUniqId(),
+            name: `Custom pizza ${customPizzaArr.length + 1}`,
+            ingredients: [],
+        };
 
         const newPizza = new PizzaCard(newPizzaObj);
         newPizza.renderChooseGroup();
@@ -632,3 +602,16 @@ const createCustomPizza = () => {
     }
 };
 customWindowBtn.addEventListener('click', createCustomPizza);
+
+// BUY BTN
+const cartSubmitBtn = document.getElementById('cart_submit_button');
+
+const buyItems = () => {
+    if (confirm('Confirm your purchase')) {
+    customerCartArr = [];
+    cartRender();
+    printEmpty();
+    localStorage.clear();
+    }
+};
+cartSubmitBtn.addEventListener('click', buyItems);
