@@ -1,0 +1,592 @@
+
+
+$font-stack: 'Baloo Chettan 2', cursive;
+$basicLight: #868e96;
+$basicDark: #212529;
+$white: white;
+$black: black;
+$mainPool: rgb(239, 239, 239);
+$cartBtn: rgb(221, 2, 2);
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    font-family: $font-stack;
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.nav_bar {
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    height: 4em;
+    align-items: center;
+    background-color: $white;
+    box-shadow: 5px 1px 11px 0px $black;
+    text-decoration: none;
+    justify-content: space-between;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    justify-content: flex-start;
+    font-weight: bolder;
+}
+
+.menu_item {
+    margin: 0 3em;
+}
+
+.menu_item a,
+.menu_item a:visited,
+.nav_bar a {
+    text-decoration: none;
+    display: block;
+    color: $basicLight;
+}
+
+.menu_item a:hover,
+.nav_bar a:hover,
+.nav_bar button:hover {
+    color: $basicDark;
+    cursor: pointer;
+}
+
+.nav_bar {
+
+    button {
+        border: none;
+        background-color: $white;
+        color: $basicLight;
+        margin: 0 3em;
+
+        span {
+            margin-left: 0.5em;
+            color: $cartBtn;
+            font-weight: bold;
+        }
+        i {
+            font-size: 1.5em;
+        }
+    }
+}
+
+main {
+    margin-top: 4em;
+    display: flex;
+    // min-height: 100vh - 9em;
+    flex-direction: column;
+    flex: 1 0 auto;
+    background: $mainPool;
+}
+
+.content,
+.content_products {
+    margin: 0.5em auto;
+    width: 80%;
+}
+
+.content {
+    margin-bottom: 2em;
+
+    h3 {
+        margin: 0.5em 0;
+    }
+}
+
+h1 {
+    margin-top: 2em;
+}
+
+.main_img {
+    display: block;
+    height: 20em;
+    margin: 0.5em 0;
+    @­include background(
+        image-url("foo.png"),
+        linear-gradient(top left, #333, #0c0),
+        radial-gradient(#c00, #fff 100px)
+    );
+    background: url(./img/main_content.jpg) no-repeat center;
+    background-size: cover;
+}
+
+.img_block {
+    display: block;
+}
+
+.switch-button,
+.switch-filter {
+    color: $basicLight;
+    margin-left: 0.75em;
+}
+
+    .switch-button:hover,
+    .switch-filter:hover {
+        cursor: pointer;
+        color: $basicDark;
+    }
+
+.content_products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+
+    article ul {
+        list-style: none;
+    }
+}
+
+.card_wrapper {
+    width: 280px;
+    min-height: 300px;
+    margin: 1em 0.7em;
+    position: relative;
+    perspective: 1000px;
+}
+
+.front, .back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        transition: 0.7s;
+        backface-visibility: hidden;
+        background-color: $white;
+        border-radius: 0.5em;
+        box-shadow: 1px 0px 5px 0px $black;
+        cursor: pointer;
+    }
+
+.front {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    ul {
+        margin: 1em 0.5em 0 2em;
+        max-height: 150px;
+        overflow: auto;
+    }
+}
+
+.back {
+    transform: rotateY(180deg);
+    background-size: 95%!important;
+}
+
+.list_icon {
+    display: none;
+}
+
+.content_products button,
+.custom_add_button,
+.custom_save_button {
+    font-family: inherit;
+    padding: 0.5em 0.5em;
+    border-radius: 0.4em;
+}
+
+.content_products button:hover,
+.custom_add_button:hover,
+.custom_save_button:hover  {
+    color: $white;
+    background-color: $basicDark;
+}
+
+.edit_button {
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
+}
+
+.add_button {
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+}
+                
+section .clicked .front {
+    box-shadow: 1px 0px 35px 0px $black;
+    transform: rotateY(180deg);
+}
+
+section .clicked .back {
+    box-shadow: 1px 0px 49px 0px $black;
+    transform: rotateY(360deg);
+}
+
+.content_products article canvas {
+    margin-top: 1.5em;
+}
+
+.content_products article h2 {
+    margin-top: 0em;
+}
+
+.content_choose {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    margin: 10em auto;
+
+    button {
+        margin-left: 1em;
+        border: $basicLight;
+        background: $mainPool;
+    }
+
+    i {
+        font-size: 3em;
+        margin-left: 1em;
+        color: $basicLight;
+    }
+
+    i:hover {
+        cursor: pointer;
+        color: $basicDark;
+    }
+}
+
+.content_products_control {
+
+    h2 {
+        font-size: 2em;
+        margin-top: 1em;
+    }
+
+    button {
+        font-size: 1em;
+        border: $basicLight;
+        font-weight: bold;
+    }
+}
+
+.content_products_control 
+.search-bar {
+    position: relative;
+}
+    
+.search-bar-input {
+    background-color: $white;
+    padding: 1em 1em 1em 3em;
+    margin: 1em 0 0 1em;
+    border: 1px solid $basicLight;
+    border-radius: 2em;
+}
+    
+.search-bar-submit {
+    position: absolute;
+    top: 45%;
+    left: 1.7em;
+    background-color: $white;
+    border: 1px solid $white;
+    border-radius: 10px;
+    color: $basicLight;
+}
+    
+.search-bar-submit:hover {
+    color: $basicDark;
+    background-color: $white;
+}
+    
+.fa-search {
+    font-size: 1.3em;
+}
+
+.customer_cart {
+    margin-top: 2em;
+    display: flex;
+    align-items: flex-start;
+}
+
+.cart_items {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+
+    h2 {
+        padding: 15px 0 15px 40px;
+        width: 100%;
+        margin-bottom: 1em;
+        background: $white;
+        border-radius: 0.2em;
+        box-shadow: 1px 0px 5px 0px $black;
+    }
+}
+
+.cart_item {
+    position: relative;
+    width: 100%;
+    padding: 0.5em 0 0.5em 40px;
+    margin-bottom: 1em;
+    background: $white;
+    border-radius: 0.2em;
+    box-shadow: 1px 0px 5px 0px $black;
+
+    ul {
+        list-style: none;
+    }
+}
+
+.item_cart_control {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.delete_button,
+.pluss_button {
+    background: $basicLight;
+    border: none;
+    border-radius: 0.75em;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.cart_submit {
+    position: fixed;
+    top: 6em;
+    right: 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    background: $white;
+    height: 10em;
+    box-shadow: 1px 0px 5px 0px $black;
+    border-radius: 0.5em;
+    padding: 1.5em ;
+}
+
+.total_price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart_submit_button {
+    color: $white;
+    border: none;
+    padding: 0.4em 0;
+    background-color: $cartBtn;
+    font: inherit;
+        border-radius: 0.2em;
+}
+
+.custom_pizza {
+    position: fixed;
+    z-index: 2;
+    top: 6em;
+    background-color: $white;
+    width: 30%;
+    min-width: 265px;
+    height: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    border-radius: 0.5em;
+    box-shadow: 1px 0px 49px 0px $black;
+    overflow: hidden;
+}
+
+.custom_wrap {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    width: 100%;
+    height: 130px;
+    border-radius: 0.1em;
+    box-shadow: 0px 2px 4px 0px $black;
+}
+
+.custom_char {
+    margin: 15px;
+    list-style: none;
+}
+
+.custom_controle {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+
+    button {
+        padding: 0 0.2em;
+    }
+}
+
+.custom_close_button {
+    transition: 0.5s;
+    position: absolute;
+    border: none;
+    color: $black;
+    background-color: $white;
+    right: 0.3em;
+    top: 0.3em;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 0.75em;
+    cursor: pointer;
+    font: bolder 1em $font-stack;
+}
+
+.custom_root {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: $white;
+    height: 320px;
+    overflow: auto;
+}
+
+.custom_close_button:hover {
+    color: $white;
+    background-color: $cartBtn;
+}
+
+.choose_group {
+    padding: 1em;
+    list-style: none;
+}
+
+footer {
+    display: flex;
+    flex: 0 0 auto;
+    height: 5em;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: $basicDark;
+
+    p {
+        margin-right: 5em;
+        color: $white;
+    }
+}
+   
+.list_view {
+    display: flex;
+    flex-direction: column;
+
+    article {
+        ul {
+            margin: 0 1em 0 auto;
+
+            li {
+                display: none;
+            }
+
+            li:last-child {
+                display: list-item;
+            }
+        }
+
+        .edit_button,
+        .add_button {
+            position: static;
+            margin-right: 1em;
+        }
+    }
+
+    div {
+        position: relative;
+        min-height: 50px;
+        max-width: 980px;
+        padding: 0;
+        width: 100%;
+
+        .front {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            height: fit-content;
+            align-items: center;
+
+            img {
+                display: block;
+                background: url(./img/pizza-list-style.svg) no-repeat center;
+                background-size: 90%;
+                width: 4em;
+                height: 4em;
+                margin-right: 1em;   
+            }
+        }
+
+        .back {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            height: fit-content;
+            align-items: center;
+            height: 75px;
+            background-size: 45%!important;
+        }
+    }
+}
+
+.reset_button {
+    transition: 0.5s;
+    cursor: pointer;
+    padding: 0 0.4em;
+    margin-left: 0.5em;
+    border: 0.5px solid $basicDark;
+    box-shadow: 0.5px 1px $black;
+    border-radius: 1.5em;
+    font: bold 1em $black;
+}
+
+.reset_button:hover {
+    background-color: $white;
+}
+
+.error {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.on {
+    color: $basicDark!important;
+}
+
+.back {
+    background: no-repeat center;
+}
+
+@media only screen and (max-width: 900px) {
+
+    .nav_bar button {
+        margin: 0 1.5em;
+    }
+
+    .menu_item {
+        margin: 0 1em;
+    }
+
+    .cart_items {
+        width: 50%;
+    }
+
+    .custom_pizza {
+        width: 50%;
+    }
+}
