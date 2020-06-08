@@ -1,5 +1,3 @@
-
-
 $font-stack: 'Baloo Chettan 2', cursive;
 $basicLight: #868e96;
 $basicDark: #212529;
@@ -7,6 +5,23 @@ $white: white;
 $black: black;
 $mainPool: rgb(239, 239, 239);
 $cartBtn: rgb(221, 2, 2);
+
+@mixin transform($property) {
+    -webkit-transform: $property;
+    -ms-transform: $property;
+    -moz-transform: $property;
+    -o-transform: $property;
+    transform: $property;
+}
+
+@mixin background($property) {
+    -webkit-background: $property;
+    -ms-background: $property;
+    -moz-background: $property;
+    -o-background: $property;
+    background: $property;
+}
+
 
 * {
     margin: 0;
@@ -91,7 +106,7 @@ main {
     // min-height: 100vh - 9em;
     flex-direction: column;
     flex: 1 0 auto;
-    background: $mainPool;
+    @include background($mainPool);
 }
 
 .content,
@@ -116,12 +131,7 @@ h1 {
     display: block;
     height: 20em;
     margin: 0.5em 0;
-    @­include background(
-        image-url("foo.png"),
-        linear-gradient(top left, #333, #0c0),
-        radial-gradient(#c00, #fff 100px)
-    );
-    background: url(./img/main_content.jpg) no-repeat center;
+    @include background(url(./img/main_content.jpg) no-repeat center);
     background-size: cover;
 }
 
@@ -187,7 +197,7 @@ h1 {
 }
 
 .back {
-    transform: rotateY(180deg);
+    @include transform(rotateY(180deg));
     background-size: 95%!important;
 }
 
@@ -224,12 +234,12 @@ h1 {
                 
 section .clicked .front {
     box-shadow: 1px 0px 35px 0px $black;
-    transform: rotateY(180deg);
+    @include transform(rotateY(180deg));
 }
 
 section .clicked .back {
     box-shadow: 1px 0px 49px 0px $black;
-    transform: rotateY(360deg);
+    @include transform(rotateY(360deg));
 }
 
 .content_products article canvas {
@@ -250,7 +260,7 @@ section .clicked .back {
     button {
         margin-left: 1em;
         border: $basicLight;
-        background: $mainPool;
+        @include background($mainPool);
     }
 
     i {
@@ -326,7 +336,7 @@ section .clicked .back {
         padding: 15px 0 15px 40px;
         width: 100%;
         margin-bottom: 1em;
-        background: $white;
+        @include background($white);
         border-radius: 0.2em;
         box-shadow: 1px 0px 5px 0px $black;
     }
@@ -337,7 +347,7 @@ section .clicked .back {
     width: 100%;
     padding: 0.5em 0 0.5em 40px;
     margin-bottom: 1em;
-    background: $white;
+    @include background($white);
     border-radius: 0.2em;
     box-shadow: 1px 0px 5px 0px $black;
 
@@ -354,7 +364,7 @@ section .clicked .back {
 
 .delete_button,
 .pluss_button {
-    background: $basicLight;
+    @include background($basicLight);
     border: none;
     border-radius: 0.75em;
     width: 1.5em;
@@ -369,7 +379,7 @@ section .clicked .back {
     flex-direction: column;
     justify-content: space-between;
     width: 25%;
-    background: $white;
+    @include background($white);
     height: 10em;
     box-shadow: 1px 0px 5px 0px $black;
     border-radius: 0.5em;
@@ -520,7 +530,7 @@ footer {
 
             img {
                 display: block;
-                background: url(./img/pizza-list-style.svg) no-repeat center;
+                @include background(url(./img/pizza-list-style.svg) no-repeat center);
                 background-size: 90%;
                 width: 4em;
                 height: 4em;
@@ -569,7 +579,7 @@ footer {
 }
 
 .back {
-    background: no-repeat center;
+    @include background(no-repeat center);
 }
 
 @media only screen and (max-width: 900px) {
@@ -584,9 +594,33 @@ footer {
 
     .cart_items {
         width: 50%;
+
+        h3 {
+            margin-top: 25px;
+        }
+
+        .cart_item {
+            padding-left: 5px;
+        }
     }
 
     .custom_pizza {
-        width: 50%;
+        width: 46%;
     }
+}
+
+@media only screen and (max-width: 420px) {
+
+    .cart_items {
+        width: 46%;
+
+        h2 {
+            padding: 0 5px 0 5px;
+        }
+    }
+
+    .cart_submit {
+        width: 25%;
+    }
+
 }
